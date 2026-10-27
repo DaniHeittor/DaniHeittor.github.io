@@ -1,75 +1,243 @@
 <!DOCTYPE html>
 <html lang="pt">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-      integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-      crossorigin="anonymous"
-    />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dani Heittor Leite Rodrigues — Em breve</title>
+<meta name="description" content="Portefólio de Dani Heittor Leite Rodrigues. Em breve.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💡</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,800&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E2A3B; --text: #E8EEF1; --muted: #8FA9B7;
+    --light: #FFB547; --line: #2C5368;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #EEF3F5; --text: #0E2A3B; --muted: #4F6B7A;
+      --light: #C46A0E; --line: #B8CBD4;
+      color-scheme: light;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 1.0625rem; line-height: 1.6;
+  }
+  .sky {
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    z-index: 0; display: block;
+  }
+  .page {
+    position: relative; z-index: 1;
+    max-width: 60rem; margin: 0 auto; height: 100%;
+    padding: clamp(2rem, 7vw, 5rem) clamp(1.25rem, 5vw, 3rem);
+    display: flex; flex-direction: column; justify-content: center;
+    gap: clamp(2rem, 5vw, 3.5rem);
+  }
+  h1 {
+    font-family: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
+    font-weight: 800; font-size: clamp(3rem, 11vw, 7rem);
+    line-height: .95; letter-spacing: -0.03em;
+  }
+  .role {
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-size: clamp(1.25rem, 3vw, 1.75rem); color: var(--muted);
+    margin-top: .75rem; max-width: 36ch;
+  }
 
-    <link rel="stylesheet" href="css/main.css" />
-    <title>Portfolio DHRodrigues</title>
-  </head>
+  /* Círculo a girar */
+  :root { --blue: #4FA3E0; }
+  @media (prefers-color-scheme: light) { :root { --blue: #1F6FB2; } }
+  .orbit { width: 120px; height: 120px; display: block; overflow: visible; margin: 0 auto; }
+  .orbit * { transform-origin: 60px 60px; }
+  .orbit .ring-out { fill: none; stroke: var(--blue); stroke-width: 1.5; stroke-dasharray: 3 9; opacity: .55; animation: spin 24s linear infinite; }
+  .orbit .ring-in  { fill: none; stroke: var(--blue); stroke-width: 2; opacity: .25; }
+  .orbit .arc      { fill: none; stroke: var(--blue); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 60 400; }
+  .orbit .spin-a   { animation: spin 2.8s linear infinite; }
+  .orbit .spin-b   { animation: spin 6s linear infinite reverse; }
+  .orbit .dot      { fill: var(--blue); filter: drop-shadow(0 0 6px var(--blue)); }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  <body id="bg-img">
-    <header>
-      <div class="menu-btn">
-        <div class="btn-line"></div>
-        <div class="btn-line"></div>
-        <div class="btn-line"></div>
-      </div>
+  .soon h2 {
+    font-family: "Bricolage Grotesque", system-ui, sans-serif;
+    font-weight: 400; font-size: clamp(1.5rem, 3.5vw, 2.25rem); line-height: 1.2;
+  }
+  .soon p { color: var(--muted); margin-top: .75rem; max-width: 56ch; }
+  .hint { font-size: .9rem; }
 
-      <nav class="menu">
-        <div class="menu-branding">
-          <div class="portrait"></div>
-        </div>
-        <ul class="menu-nav">
-          <li class="nav-item current">
-            <a href="index.html" class="nav-link">
-              INICIAL
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="about.html" class="nav-link">
-              SOBRE MIM
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="work.html" class="nav-link">
-              MEUS TRABALHOS
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="contact.html" class="nav-link">
-              COMO ME CONTACTAR
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </header>
+  footer { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  a { color: var(--text); text-underline-offset: .2em; cursor: pointer; }
+  a:hover { color: var(--light); }
+  a:focus-visible { outline: 3px solid var(--light); outline-offset: 3px; }
 
-    <main id="home">
-      <h1 class="lg-heading">
-        Dani
-        <span class="text-secondary">Heittor</span>
-      </h1>
-      <h2 class="sm-heading">
-        Desenvolvedor Web, Programador, Base de Dados & Redes
-      </h2>
-      <div class="icons">
-     
-        <a href="#!">
-          <i class="fab fa-facebook fa-2x"></i>
-        </a>
-        <a href="https://github.com/DaniHeittor">
-          <i class="fab fa-github fa-2x"></i>
-       
-      </div>
-    </main>
-    <script src="js/main.js"></script>
-  </body>
+  @media (prefers-reduced-motion: reduce) {
+    .orbit * { animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js"></script>
+
+<script type="text/babel">
+/* ===== TEXTOS: muda só aqui ===== */
+const CONFIG = {
+  nome: "Dani Heittor Leite Rodrigues",
+  papel: "A estudar o Mestrado em Informática na Universidade Politécnica de Bragança.",
+  titulo: "O novo portefólio vem aí.",
+  texto: "Estou a construir um site novo com os meus projetos de software e a minha experiência profissional atualizada. Até lá, podes ver o meu código no GitHub ou falar comigo por email.",
+  github: "https://github.com/DaniHeittor",
+  email: "daniheittorodrigues@gmail.com",   // ← muda para o teu email
+  linkedin: "www.linkedin.com/in/dani-heittor-rodrigues-b005a1263"                         // ← cola aqui o link do LinkedIn, se quiseres
+};
+
+/* ===== FUNDO: estrelas que se ligam quando passas o rato ===== */
+function Ceu() {
+  const ref = React.useRef(null);
+
+  React.useEffect(() => {
+    const canvas = ref.current;
+    const ctx = canvas.getContext("2d");
+    const reduz = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const css = getComputedStyle(document.documentElement);
+    const corEstrela = css.getPropertyValue("--muted").trim();
+    const corLuz = css.getPropertyValue("--light").trim();
+
+    let w, h, estrelas = [], animId;
+    const rato = { x: -9999, y: -9999 };
+    const RAIO_RATO = 140;   // distância a que o rato "acende" estrelas
+    const LIGACAO = 120;     // distância máxima entre estrelas ligadas
+    const DURACAO = 3000;    // quanto tempo o desenho fica visível (ms)
+
+    function iniciar() {
+      const dpr = window.devicePixelRatio || 1;
+      w = window.innerWidth; h = window.innerHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const total = Math.round((w * h) / 9000);
+      estrelas = Array.from({ length: total }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
+        r: Math.random() * 1.4 + 0.4,
+        aceso: 0
+      }));
+    }
+
+    function desenhar(agora) {
+      ctx.clearRect(0, 0, w, h);
+
+      // mover e acender estrelas perto do rato
+      for (const s of estrelas) {
+        if (!reduz) {
+          s.x += s.vx; s.y += s.vy;
+          if (s.x < 0 || s.x > w) s.vx *= -1;
+          if (s.y < 0 || s.y > h) s.vy *= -1;
+        }
+        if (Math.hypot(s.x - rato.x, s.y - rato.y) < RAIO_RATO) s.aceso = agora;
+      }
+
+      // linhas entre estrelas acesas (o "desenho")
+      ctx.strokeStyle = corLuz;
+      for (let i = 0; i < estrelas.length; i++) {
+        const a = estrelas[i];
+        const va = 1 - (agora - a.aceso) / DURACAO;
+        if (va <= 0) continue;
+        for (let j = i + 1; j < estrelas.length; j++) {
+          const b = estrelas[j];
+          const vb = 1 - (agora - b.aceso) / DURACAO;
+          if (vb <= 0) continue;
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < LIGACAO) {
+            ctx.globalAlpha = Math.min(va, vb) * (1 - d / LIGACAO) * 0.8;
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+      }
+
+      // as estrelas
+      for (const s of estrelas) {
+        const v = Math.max(0, 1 - (agora - s.aceso) / DURACAO);
+        ctx.globalAlpha = 0.5 + v * 0.5;
+        ctx.fillStyle = v > 0 ? corLuz : corEstrela;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.r + v * 1.2, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      animId = requestAnimationFrame(desenhar);
+    }
+
+    function mover(e) { rato.x = e.clientX; rato.y = e.clientY; }
+    function sair() { rato.x = -9999; rato.y = -9999; }
+
+    iniciar();
+    animId = requestAnimationFrame(desenhar);
+    window.addEventListener("resize", iniciar);
+    window.addEventListener("pointermove", mover);
+    window.addEventListener("pointerleave", sair);
+    document.addEventListener("mouseleave", sair);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", iniciar);
+      window.removeEventListener("pointermove", mover);
+      window.removeEventListener("pointerleave", sair);
+      document.removeEventListener("mouseleave", sair);
+    };
+  }, []);
+
+  return <canvas ref={ref} className="sky" aria-hidden="true"></canvas>;
+}
+
+function App() {
+  return (
+    <>
+    <Ceu />
+    <div className="page">
+      <header>
+        <h1>{CONFIG.nome}</h1>
+        <p className="role">{CONFIG.papel}</p>
+      </header>
+
+      <svg className="orbit" viewBox="0 0 120 120" aria-hidden="true">
+        <circle className="ring-out" cx="60" cy="60" r="56" />
+        <circle className="ring-in" cx="60" cy="60" r="38" />
+        <g className="spin-a">
+          <circle className="arc" cx="60" cy="60" r="38" />
+        </g>
+        <g className="spin-b">
+          <circle className="dot" cx="116" cy="60" r="4" />
+        </g>
+        <circle className="dot" cx="60" cy="60" r="8" />
+      </svg>
+
+      <section className="soon">
+        <h2>{CONFIG.titulo}</h2>
+        <p>{CONFIG.texto}</p>
+      </section>
+
+      <footer>
+        <a href={CONFIG.github} target="_blank" rel="noopener">GitHub</a>
+        {CONFIG.linkedin && <a href={CONFIG.linkedin} target="_blank" rel="noopener">LinkedIn</a>}
+        <a href={"mailto:" + CONFIG.email}>Email</a>
+      </footer>
+    </div>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
 </html>
