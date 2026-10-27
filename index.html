@@ -24,7 +24,13 @@
   }
   * { box-sizing: border-box; margin: 0; }
   html, body { height: 100%; }
-  :root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  :root {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    -webkit-text-size-adjust: 100%;
+  }
   body {
     background: var(--bg); color: var(--text);
     font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -36,15 +42,17 @@
   }
   .page {
     position: relative; z-index: 1;
-    max-width: 60rem; margin: 0 auto; height: 100%;
+    max-width: 60rem; margin: 0 auto;
+    min-height: 100vh; min-height: 100dvh;
     padding: clamp(2rem, 7vw, 5rem) clamp(1.25rem, 5vw, 3rem);
     display: flex; flex-direction: column; justify-content: center;
     gap: clamp(2rem, 5vw, 3.5rem);
   }
   h1 {
     font-family: "Bricolage Grotesque", "IBM Plex Sans", system-ui, sans-serif;
-    font-weight: 800; font-size: clamp(3rem, 11vw, 7rem);
-    line-height: .95; letter-spacing: -0.03em;
+    font-weight: 800; font-size: clamp(2.25rem, 10vw, 6.5rem);
+    line-height: .98; letter-spacing: -0.03em;
+    overflow-wrap: break-word; hyphens: auto; text-wrap: balance;
   }
   .role {
     font-family: "Bricolage Grotesque", system-ui, sans-serif;
@@ -55,7 +63,7 @@
   /* Círculo a girar */
   :root { --blue: #4FA3E0; }
   @media (prefers-color-scheme: light) { :root { --blue: #1F6FB2; } }
-  .orbit { width: 120px; height: 120px; display: block; overflow: visible; margin: 0 auto; }
+  .orbit { width: clamp(88px, 24vw, 140px); height: auto; aspect-ratio: 1; display: block; overflow: visible; margin: 0 auto; }
   .orbit * { transform-origin: 60px 60px; }
   .orbit .ring-out { fill: none; stroke: var(--blue); stroke-width: 1.5; stroke-dasharray: 3 9; opacity: .55; animation: spin 24s linear infinite; }
   .orbit .ring-in  { fill: none; stroke: var(--blue); stroke-width: 2; opacity: .25; }
@@ -72,10 +80,28 @@
   .soon p { color: var(--muted); margin-top: .75rem; max-width: 56ch; }
   .hint { font-size: .9rem; }
 
-  footer { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  footer { display: flex; gap: .5rem 1.5rem; flex-wrap: wrap; }
+  footer a { display: inline-block; padding: .5rem 0; }
   a { color: var(--text); text-underline-offset: .2em; cursor: pointer; }
   a:hover { color: var(--light); }
   a:focus-visible { outline: 3px solid var(--light); outline-offset: 3px; }
+
+  /* Telemóveis pequenos */
+  @media (max-width: 400px) {
+    body { font-size: 1rem; }
+    .page { padding: 2rem 1.1rem; gap: 1.75rem; }
+  }
+  /* Telemóvel deitado ou ecrãs baixos */
+  @media (max-height: 520px) and (orientation: landscape) {
+    .page { justify-content: flex-start; padding-top: 1.5rem; padding-bottom: 1.5rem; gap: 1.25rem; }
+    h1 { font-size: clamp(2rem, 6vw, 3.25rem); }
+    .orbit { width: 72px; }
+  }
+  /* Ecrãs muito grandes */
+  @media (min-width: 1800px) {
+    body { font-size: 1.2rem; }
+    .page { max-width: 72rem; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .orbit * { animation: none !important; }
@@ -97,7 +123,7 @@ const CONFIG = {
   titulo: "O novo portefólio vem aí.",
   texto: "Estou a construir um site novo com os meus projetos de software e a minha experiência profissional atualizada. Até lá, podes ver o meu código no GitHub ou falar comigo por email.",
   github: "https://github.com/DaniHeittor",
-  email: "daniheittorodrigues@gmail.com",   // ← muda para o teu email
+  email: "daniheittorrodrigues@gmail.com",   // ← muda para o teu email
   linkedin: "www.linkedin.com/in/dani-heittor-rodrigues-b005a1263"                         // ← cola aqui o link do LinkedIn, se quiseres
 };
 
@@ -119,12 +145,23 @@ function Ceu() {
     const LIGACAO = 120;     // distância máxima entre estrelas ligadas
     const DURACAO = 3000;    // quanto tempo o desenho fica visível (ms)
 
+    let larguraAnterior = 0;
     function iniciar() {
-      const dpr = window.devicePixelRatio || 1;
-      w = window.innerWidth; h = window.innerHeight;
-      canvas.width = w * dpr; canvas.height = h * dpr;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const novoW = window.innerWidth, novoH = window.innerHeight;
+      canvas.width = novoW * dpr; canvas.height = novoH * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const total = Math.round((w * h) / 9000);
+
+      // No telemóvel, a barra do browser muda a altura ao fazer scroll.
+      // Nesse caso só ajustamos as estrelas, sem as criar de novo.
+      if (larguraAnterior === novoW && estrelas.length) {
+        const fy = novoH / h;
+        for (const s of estrelas) s.y *= fy;
+        w = novoW; h = novoH;
+        return;
+      }
+      w = novoW; h = novoH; larguraAnterior = novoW;
+      const total = Math.min(260, Math.max(40, Math.round((w * h) / 9000)));
       estrelas = Array.from({ length: total }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -180,19 +217,24 @@ function Ceu() {
 
     function mover(e) { rato.x = e.clientX; rato.y = e.clientY; }
     function sair() { rato.x = -9999; rato.y = -9999; }
+    function largar(e) { if (e.pointerType !== "mouse") sair(); }  // dedo levantado
 
     iniciar();
     animId = requestAnimationFrame(desenhar);
     window.addEventListener("resize", iniciar);
     window.addEventListener("pointermove", mover);
-    window.addEventListener("pointerleave", sair);
+    window.addEventListener("pointerdown", mover);
+    window.addEventListener("pointerup", largar);
+    window.addEventListener("pointercancel", sair);
     document.addEventListener("mouseleave", sair);
 
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", iniciar);
       window.removeEventListener("pointermove", mover);
-      window.removeEventListener("pointerleave", sair);
+      window.removeEventListener("pointerdown", mover);
+      window.removeEventListener("pointerup", largar);
+      window.removeEventListener("pointercancel", sair);
       document.removeEventListener("mouseleave", sair);
     };
   }, []);
